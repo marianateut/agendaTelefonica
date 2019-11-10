@@ -2,7 +2,7 @@ package org.fasttrackit.agendaTelefonica;
 
 import org.fasttrackit.agendaTelefonica.persistance.AgendaRepository;
 import org.fasttrackit.agendaTelefonica.transfer.CreateAgendaRequest;
-import org.fasttrackit.domain.Agenda;
+import org.fasttrackit.agendaTelefonica.domain.Agenda;
 
 import java.io.IOException;
 import java.sql.SQLException;
