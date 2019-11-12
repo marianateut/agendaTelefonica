@@ -33,18 +33,31 @@ public class AgendaServlet extends HttpServlet {
         }
     }
 
+//    @Override
+//    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        String first_name = req.getParameter("first_name");
+//        String last_name = req.getParameter("last_name");
+//
+//        try {
+//            agendaService.deleteAgenda(first_name,last_name);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            resp.sendError(500, "Internal Server Error:" + e.getMessage());
+//        }
+//    }
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String first_name = req.getParameter("first_name");
-        String last_name = req.getParameter("last_name");
-
+        String[] id = req.getParameterValues("id");
+        long[]ids=new long[100];
+        for(int i=0; i<=id.length;i++)
+        {
+            ids[i]=Long.parseLong(id[i]);
+        }
         try {
-            agendaService.deleteAgenda(first_name,last_name);
+            agendaService.deleteMoreContacts(ids);
         } catch (SQLException | ClassNotFoundException e) {
-            resp.sendError(500, "Internal Server Error:" + e.getMessage());
+            resp.sendError(500,"Internal error: " + e.getMessage());
         }
     }
-
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String id = req.getParameter("id");
@@ -60,10 +73,24 @@ public class AgendaServlet extends HttpServlet {
         }
     }
 
+//    @Override
+//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//        try {
+//            List<Agenda> agendas = agendaService.getAgendas();
+//            String response = ObjectMapperConfiguration.getObjectMapper().writeValueAsString(agendas);
+//
+//            resp.getWriter().print(response);
+//        } catch (SQLException | ClassNotFoundException e) {
+//            resp.sendError(500, "Internal Server Error:" + e.getMessage());
+//        }
+//    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String first_name = req.getParameter("first_name");
+        String last_name = req.getParameter("last_name");
         try {
-            List<Agenda> agendas = agendaService.getAgendas();
+            List<Agenda> agendas = agendaService.getAgendasByName(first_name, last_name);
 
             String response = ObjectMapperConfiguration.getObjectMapper().writeValueAsString(agendas);
 
@@ -73,4 +100,5 @@ public class AgendaServlet extends HttpServlet {
             resp.sendError(500, "Internal Server Error:" + e.getMessage());
         }
     }
+
 }

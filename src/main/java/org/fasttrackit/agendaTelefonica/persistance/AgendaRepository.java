@@ -63,4 +63,35 @@ public class AgendaRepository {
         }
         return agendas;
     }
+    public List<Agenda> getAgendasByName(String first_name, String last_name) throws SQLException, IOException, ClassNotFoundException {
+        String sql = "SELECT id, first_name, last_name, nr_tel FROM  agenda";
+
+        List<Agenda> agendas = new ArrayList<>();
+
+        try (Connection connection = DatabaseConfiguration.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                Agenda agenda = new Agenda();
+                agenda.setId(resultSet.getLong("id"));
+                agenda.setFirstName(resultSet.getString("first_name"));
+                agenda.setLastName(resultSet.getString("last_name"));
+                agenda.setNrTel(resultSet.getString("nr_tel"));
+                if (agenda.getLastName().equals(last_name) | agenda.getFirstName().equals(first_name))
+                    agendas.add(agenda);
+            }
+        }
+        return agendas;
+    }
+
+    public void deleteMoreContacts(long[] id) throws SQLException, IOException, ClassNotFoundException {
+        String sql = "DELETE FROM nr_tel WHERE id=?";
+        try (Connection connection = DatabaseConfiguration.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);) {
+            for (int i = 0; i < id.length; i++) {
+                preparedStatement.setLong(1, id[i]);
+                preparedStatement.executeUpdate();
+            }
+        }
+    }
 }

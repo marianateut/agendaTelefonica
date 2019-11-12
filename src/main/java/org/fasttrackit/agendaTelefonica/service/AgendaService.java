@@ -20,12 +20,24 @@ public class AgendaService {
         System.out.println("Updating agenda:" + request);
         agendaRepository.updateAgenda(id, request);
     }
+
     public void deleteAgenda(String first_name,String last_name) throws SQLException, IOException, ClassNotFoundException {
         System.out.println("Deleting item "+first_name );
         agendaRepository.deleteAgenda(first_name,last_name);
     }
+
+    public void deleteMoreContacts(long[] id) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println("Deleting phone contacts...");
+        agendaRepository.deleteMoreContacts(id);
+    }
+
     public List<Agenda> getAgendas() throws SQLException, IOException, ClassNotFoundException {
         System.out.println("Retrieving agenda...");
         return agendaRepository.getAgendas();
+    }
+
+    public List<Agenda> getAgendasByName(String first_name, String last_name) throws SQLException, IOException, ClassNotFoundException {
+        System.out.println("Retrieving agenda...");
+        return agendaRepository.getAgendasByName(first_name,last_name);
     }
 }
